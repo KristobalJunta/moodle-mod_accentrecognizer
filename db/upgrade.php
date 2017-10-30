@@ -69,6 +69,10 @@ function xmldb_accentrecognizer_upgrade($oldversion) {
      * First example, some fields were added to install.xml on 2007/04/01
      */
 
+    if ($oldversion < 2017103003) {
+        upgrade_mod_savepoint(true, 2017103003, 'accentrecognizer');
+    }
+
     if ($oldversion < 2017103002) {
         upgrade_mod_savepoint(true, 2017103002, 'accentrecognizer');
     }
