@@ -28,8 +28,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_accentrecognizer';
-$plugin->version = 01;
-$plugin->release = 'v0.1';
+$plugin->version = 2017103000;
+$plugin->release = 'v0.2';
 $plugin->requires = 2014051200;
 $plugin->maturity = MATURITY_ALPHA;
 $plugin->cron = 0;

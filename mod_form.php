@@ -67,12 +67,8 @@ class mod_accentrecognizer_mod_form extends moodleform_mod {
             $this->add_intro_editor();
         }
 
-        // Adding the rest of accentrecognizer settings, spreading all them into this fieldset
-        // ... or adding more fieldsets ('header' elements) if needed for better logic.
-        $mform->addElement('static', 'label1', 'accentrecognizersetting1', 'Your accentrecognizer fields go here. Replace me!');
-
-        $mform->addElement('header', 'accentrecognizerfieldset', get_string('accentrecognizerfieldset', 'accentrecognizer'));
-        $mform->addElement('static', 'label2', 'accentrecognizersetting2', 'Your accentrecognizer fields go here. Replace me!');
+        $mform->addElement('editor', 'task_text', get_string('accentrecognizer_tasktext', 'accentrecognizer'));
+        $mform->setType('task_text', PARAM_TEXT);
 
         // Add standard grading elements.
         $this->standard_grading_coursemodule_elements();

@@ -31,14 +31,14 @@ require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID, or
-$n  = optional_param('n', 0, PARAM_INT);  // ... accentrecognizer instance ID - it should be named as the first character of the module.
+$a  = optional_param('a', 0, PARAM_INT);  // ... accentrecognizer instance ID - it should be named as the first character of the module.
 
 if ($id) {
     $cm         = get_coursemodule_from_id('accentrecognizer', $id, 0, false, MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
     $accentrecognizer  = $DB->get_record('accentrecognizer', array('id' => $cm->instance), '*', MUST_EXIST);
-} else if ($n) {
-    $accentrecognizer  = $DB->get_record('accentrecognizer', array('id' => $n), '*', MUST_EXIST);
+} else if ($a) {
+    $accentrecognizer  = $DB->get_record('accentrecognizer', array('id' => $a), '*', MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $accentrecognizer->course), '*', MUST_EXIST);
     $cm         = get_coursemodule_from_instance('accentrecognizer', $accentrecognizer->id, $course->id, false, MUST_EXIST);
 } else {
@@ -77,7 +77,10 @@ if ($accentrecognizer->intro) {
 }
 
 // Replace the following lines with you own code.
-echo $OUTPUT->heading('Yay! It works!');
+$heading = 'Accent detector ' . ($id ? $id : $a);
+echo $OUTPUT->heading($heading);
+
+echo $OUTPUT->box($accentrecognizer->task_text);
 
 // Finish the page.
 echo $OUTPUT->footer();
