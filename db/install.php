@@ -20,8 +20,8 @@
  * This file replaces the legacy STATEMENTS section in db/install.xml,
  * lib.php/modulename_install() post installation hook and partially defaults.php.
  *
- * @package    mod_newmodule
- * @copyright  2016 Your Name <your@email.address>
+ * @package    mod_accentrecognizer
+ * @copyright  2017 Kristobal Junta junta.kristobal@gmail.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,7 +30,7 @@
  *
  * @see upgrade_plugins_modules()
  */
-function xmldb_newmodule_install() {
+function xmldb_accentrecognizer_install() {
 }
 
 /**
@@ -38,5 +38,5 @@ function xmldb_newmodule_install() {
  *
  * @see upgrade_plugins_modules()
  */
-function xmldb_newmodule_install_recovery() {
+function xmldb_accentrecognizer_install_recovery() {
 }

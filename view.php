@@ -15,65 +15,65 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Prints a particular instance of newmodule
+ * Prints a particular instance of accentrecognizer
  *
  * You can have a rather longer description of the file as well,
  * if you like, and it can span multiple lines.
  *
- * @package    mod_newmodule
- * @copyright  2016 Your Name <your@email.address>
+ * @package    mod_accentrecognizer
+ * @copyright  2017 Kristobal Junta junta.kristobal@gmail.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// Replace newmodule with the name of your module and remove this line.
+// Replace accentrecognizer with the name of your module and remove this line.
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID, or
-$n  = optional_param('n', 0, PARAM_INT);  // ... newmodule instance ID - it should be named as the first character of the module.
+$n  = optional_param('n', 0, PARAM_INT);  // ... accentrecognizer instance ID - it should be named as the first character of the module.
 
 if ($id) {
-    $cm         = get_coursemodule_from_id('newmodule', $id, 0, false, MUST_EXIST);
+    $cm         = get_coursemodule_from_id('accentrecognizer', $id, 0, false, MUST_EXIST);
     $course     = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
-    $newmodule  = $DB->get_record('newmodule', array('id' => $cm->instance), '*', MUST_EXIST);
+    $accentrecognizer  = $DB->get_record('accentrecognizer', array('id' => $cm->instance), '*', MUST_EXIST);
 } else if ($n) {
-    $newmodule  = $DB->get_record('newmodule', array('id' => $n), '*', MUST_EXIST);
-    $course     = $DB->get_record('course', array('id' => $newmodule->course), '*', MUST_EXIST);
-    $cm         = get_coursemodule_from_instance('newmodule', $newmodule->id, $course->id, false, MUST_EXIST);
+    $accentrecognizer  = $DB->get_record('accentrecognizer', array('id' => $n), '*', MUST_EXIST);
+    $course     = $DB->get_record('course', array('id' => $accentrecognizer->course), '*', MUST_EXIST);
+    $cm         = get_coursemodule_from_instance('accentrecognizer', $accentrecognizer->id, $course->id, false, MUST_EXIST);
 } else {
     error('You must specify a course_module ID or an instance ID');
 }
 
 require_login($course, true, $cm);
 
-$event = \mod_newmodule\event\course_module_viewed::create(array(
+$event = \mod_accentrecognizer\event\course_module_viewed::create(array(
     'objectid' => $PAGE->cm->instance,
     'context' => $PAGE->context,
 ));
 $event->add_record_snapshot('course', $PAGE->course);
-$event->add_record_snapshot($PAGE->cm->modname, $newmodule);
+$event->add_record_snapshot($PAGE->cm->modname, $accentrecognizer);
 $event->trigger();
 
 // Print the page header.
 
-$PAGE->set_url('/mod/newmodule/view.php', array('id' => $cm->id));
-$PAGE->set_title(format_string($newmodule->name));
+$PAGE->set_url('/mod/accentrecognizer/view.php', array('id' => $cm->id));
+$PAGE->set_title(format_string($accentrecognizer->name));
 $PAGE->set_heading(format_string($course->fullname));
 
 /*
  * Other things you may want to set - remove if not needed.
  * $PAGE->set_cacheable(false);
  * $PAGE->set_focuscontrol('some-html-id');
- * $PAGE->add_body_class('newmodule-'.$somevar);
+ * $PAGE->add_body_class('accentrecognizer-'.$somevar);
  */
 
 // Output starts here.
 echo $OUTPUT->header();
 
 // Conditions to show the intro can change to look for own settings or whatever.
-if ($newmodule->intro) {
-    echo $OUTPUT->box(format_module_intro('newmodule', $newmodule, $cm->id), 'generalbox mod_introbox', 'newmoduleintro');
+if ($accentrecognizer->intro) {
+    echo $OUTPUT->box(format_module_intro('accentrecognizer', $accentrecognizer, $cm->id), 'generalbox mod_introbox', 'accentrecognizerintro');
 }
 
 // Replace the following lines with you own code.

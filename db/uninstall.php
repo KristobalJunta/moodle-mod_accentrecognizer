@@ -19,14 +19,14 @@
  *
  * @see uninstall_plugin()
  *
- * @package    mod_newmodule
- * @copyright  2016 Your Name <your@email.address>
+ * @package    mod_accentrecognizer
+ * @copyright  2017 Kristobal Junta junta.kristobal@gmail.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
  * Custom uninstallation procedure
  */
-function xmldb_newmodule_uninstall() {
+function xmldb_accentrecognizer_uninstall() {
     return true;
 }

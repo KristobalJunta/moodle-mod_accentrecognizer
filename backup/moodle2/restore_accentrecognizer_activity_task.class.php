@@ -17,27 +17,27 @@
 /**
  * Provides the restore activity task class
  *
- * @package   mod_newmodule
+ * @package   mod_accentrecognizer
  * @category  backup
- * @copyright 2016 Your Name <your@email.address>
+ * @copyright 2017 Kristobal Junta junta.kristobal@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/mod/newmodule/backup/moodle2/restore_newmodule_stepslib.php');
+require_once($CFG->dirroot . '/mod/accentrecognizer/backup/moodle2/restore_accentrecognizer_stepslib.php');
 
 /**
- * Restore task for the newmodule activity module
+ * Restore task for the accentrecognizer activity module
  *
  * Provides all the settings and steps to perform complete restore of the activity.
  *
- * @package   mod_newmodule
+ * @package   mod_accentrecognizer
  * @category  backup
- * @copyright 2016 Your Name <your@email.address>
+ * @copyright 2017 Kristobal Junta junta.kristobal@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class restore_newmodule_activity_task extends restore_activity_task {
+class restore_accentrecognizer_activity_task extends restore_activity_task {
 
     /**
      * Define (add) particular settings this activity can have
@@ -51,7 +51,7 @@ class restore_newmodule_activity_task extends restore_activity_task {
      */
     protected function define_my_steps() {
         // We have just one structure step here.
-        $this->add_step(new restore_newmodule_activity_structure_step('newmodule_structure', 'newmodule.xml'));
+        $this->add_step(new restore_accentrecognizer_activity_structure_step('accentrecognizer_structure', 'accentrecognizer.xml'));
     }
 
     /**
@@ -61,7 +61,7 @@ class restore_newmodule_activity_task extends restore_activity_task {
     static public function define_decode_contents() {
         $contents = array();
 
-        $contents[] = new restore_decode_content('newmodule', array('intro'), 'newmodule');
+        $contents[] = new restore_decode_content('accentrecognizer', array('intro'), 'accentrecognizer');
 
         return $contents;
     }
@@ -73,8 +73,8 @@ class restore_newmodule_activity_task extends restore_activity_task {
     static public function define_decode_rules() {
         $rules = array();
 
-        $rules[] = new restore_decode_rule('NEWMODULEVIEWBYID', '/mod/newmodule/view.php?id=$1', 'course_module');
-        $rules[] = new restore_decode_rule('NEWMODULEINDEX', '/mod/newmodule/index.php?id=$1', 'course');
+        $rules[] = new restore_decode_rule('accentrecognizerVIEWBYID', '/mod/accentrecognizer/view.php?id=$1', 'course_module');
+        $rules[] = new restore_decode_rule('accentrecognizerINDEX', '/mod/accentrecognizer/index.php?id=$1', 'course');
 
         return $rules;
 
@@ -83,15 +83,15 @@ class restore_newmodule_activity_task extends restore_activity_task {
     /**
      * Define the restore log rules that will be applied
      * by the {@link restore_logs_processor} when restoring
-     * newmodule logs. It must return one array
+     * accentrecognizer logs. It must return one array
      * of {@link restore_log_rule} objects
      */
     static public function define_restore_log_rules() {
         $rules = array();
 
-        $rules[] = new restore_log_rule('newmodule', 'add', 'view.php?id={course_module}', '{newmodule}');
-        $rules[] = new restore_log_rule('newmodule', 'update', 'view.php?id={course_module}', '{newmodule}');
-        $rules[] = new restore_log_rule('newmodule', 'view', 'view.php?id={course_module}', '{newmodule}');
+        $rules[] = new restore_log_rule('accentrecognizer', 'add', 'view.php?id={course_module}', '{accentrecognizer}');
+        $rules[] = new restore_log_rule('accentrecognizer', 'update', 'view.php?id={course_module}', '{accentrecognizer}');
+        $rules[] = new restore_log_rule('accentrecognizer', 'view', 'view.php?id={course_module}', '{accentrecognizer}');
 
         return $rules;
     }
@@ -109,7 +109,7 @@ class restore_newmodule_activity_task extends restore_activity_task {
     static public function define_restore_log_rules_for_course() {
         $rules = array();
 
-        $rules[] = new restore_log_rule('newmodule', 'view all', 'index.php?id={course}', null);
+        $rules[] = new restore_log_rule('accentrecognizer', 'view all', 'index.php?id={course}', null);
 
         return $rules;
     }

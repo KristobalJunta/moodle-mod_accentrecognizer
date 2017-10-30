@@ -15,27 +15,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines backup_newmodule_activity_task class
+ * Defines backup_accentrecognizer_activity_task class
  *
- * @package   mod_newmodule
+ * @package   mod_accentrecognizer
  * @category  backup
- * @copyright 2016 Your Name <your@email.address>
+ * @copyright 2017 Kristobal Junta junta.kristobal@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->dirroot . '/mod/newmodule/backup/moodle2/backup_newmodule_stepslib.php');
+require_once($CFG->dirroot . '/mod/accentrecognizer/backup/moodle2/backup_accentrecognizer_stepslib.php');
 
 /**
- * Provides the steps to perform one complete backup of the newmodule instance
+ * Provides the steps to perform one complete backup of the accentrecognizer instance
  *
- * @package   mod_newmodule
+ * @package   mod_accentrecognizer
  * @category  backup
- * @copyright 2016 Your Name <your@email.address>
+ * @copyright 2017 Kristobal Junta junta.kristobal@gmail.com
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class backup_newmodule_activity_task extends backup_activity_task {
+class backup_accentrecognizer_activity_task extends backup_activity_task {
 
     /**
      * No specific settings for this activity
@@ -44,10 +44,10 @@ class backup_newmodule_activity_task extends backup_activity_task {
     }
 
     /**
-     * Defines a backup step to store the instance data in the newmodule.xml file
+     * Defines a backup step to store the instance data in the accentrecognizer.xml file
      */
     protected function define_my_steps() {
-        $this->add_step(new backup_newmodule_activity_structure_step('newmodule_structure', 'newmodule.xml'));
+        $this->add_step(new backup_accentrecognizer_activity_structure_step('accentrecognizer_structure', 'accentrecognizer.xml'));
     }
 
     /**
@@ -61,13 +61,13 @@ class backup_newmodule_activity_task extends backup_activity_task {
 
         $base = preg_quote($CFG->wwwroot, '/');
 
-        // Link to the list of newmodules.
-        $search = '/('.$base.'\/mod\/newmodule\/index.php\?id\=)([0-9]+)/';
-        $content = preg_replace($search, '$@NEWMODULEINDEX*$2@$', $content);
+        // Link to the list of accentrecognizers.
+        $search = '/('.$base.'\/mod\/accentrecognizer\/index.php\?id\=)([0-9]+)/';
+        $content = preg_replace($search, '$@accentrecognizerINDEX*$2@$', $content);
 
-        // Link to newmodule view by moduleid.
-        $search = '/('.$base.'\/mod\/newmodule\/view.php\?id\=)([0-9]+)/';
-        $content = preg_replace($search, '$@NEWMODULEVIEWBYID*$2@$', $content);
+        // Link to accentrecognizer view by moduleid.
+        $search = '/('.$base.'\/mod\/accentrecognizer\/view.php\?id\=)([0-9]+)/';
+        $content = preg_replace($search, '$@accentrecognizerVIEWBYID*$2@$', $content);
 
         return $content;
     }
