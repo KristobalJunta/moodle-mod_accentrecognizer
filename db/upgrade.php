@@ -68,6 +68,9 @@ function xmldb_accentrecognizer_upgrade($oldversion) {
      *
      * First example, some fields were added to install.xml on 2007/04/01
      */
+    if ($oldversion < 2017103001) {
+        upgrade_mod_savepoint(true, 2017103001, 'accentrecognizer');
+    }
     if ($oldversion < 2017103000) {
         $table = new xmldb_table('accentrecognizer');
         $field = new xmldb_field('task_text', XMLDB_TYPE_TEXT, 'long', null, null, null, null, 'intro');
