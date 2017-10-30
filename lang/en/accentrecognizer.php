@@ -40,3 +40,4 @@ $string['accentrecognizer'] = 'accentrecognizer';
 $string['pluginadministration'] = 'accentrecognizer administration';
 $string['pluginname'] = 'accentrecognizer';
 $string['accentrecognizer_tasktext'] = 'Text of the task';
+$string['accentrecognizer_taskhint'] = 'Press the "Record" button and read aloud the following text:';

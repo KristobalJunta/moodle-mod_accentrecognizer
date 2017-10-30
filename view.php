@@ -80,7 +80,10 @@ if ($accentrecognizer->intro) {
 $heading = 'Accent detector ' . ($id ? $id : $a);
 echo $OUTPUT->heading($heading);
 
+echo $OUTPUT->box(get_string('accentrecognizer_taskhint', 'accentrecognizer'), 'generalbox', null, ['style' => 'color: #999; font-size: 1.2em;']);
 echo $OUTPUT->box($accentrecognizer->task_text);
+
+echo $OUTPUT->box('<i class="fa fa-microphone fa-2x"></i> '.get_string('accentrecognizer_record', 'accentrecognizer'), 'btn btn-primary', null, ['style' => 'margin-left: auto; margin-right: auto; max-width: 300px; display: block;']);
 
 // Finish the page.
 echo $OUTPUT->footer();
