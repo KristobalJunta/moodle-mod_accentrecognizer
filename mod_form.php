@@ -67,8 +67,8 @@ class mod_accentrecognizer_mod_form extends moodleform_mod {
             $this->add_intro_editor();
         }
 
-        $mform->addElement('editor', 'task_text', get_string('accentrecognizer_tasktext', 'accentrecognizer'));
-        $mform->setType('task_text', PARAM_TEXT);
+        $mform->addElement('textarea', 'task_text', get_string('accentrecognizer_tasktext', 'accentrecognizer'));
+        // $mform->setType('task_text', PARAM_RAW);
 
         // Add standard grading elements.
         $this->standard_grading_coursemodule_elements();
