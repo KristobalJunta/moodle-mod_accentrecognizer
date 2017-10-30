@@ -68,7 +68,7 @@ class mod_accentrecognizer_mod_form extends moodleform_mod {
         }
 
         $mform->addElement('textarea', 'task_text', get_string('accentrecognizer_tasktext', 'accentrecognizer'));
-        // $mform->setType('task_text', PARAM_RAW);
+        $mform->addRule('task_text', null, 'required', null, 'client');
 
         // Add standard grading elements.
         $this->standard_grading_coursemodule_elements();
