@@ -76,14 +76,12 @@ if ($accentrecognizer->intro) {
     echo $OUTPUT->box(format_module_intro('accentrecognizer', $accentrecognizer, $cm->id), 'generalbox mod_introbox', 'accentrecognizerintro');
 }
 
-// Replace the following lines with you own code.
-$heading = 'Accent detector ' . ($id ? $id : $a);
-echo $OUTPUT->heading($heading);
+echo $OUTPUT->heading($accentrecognizer->name);
 
 echo $OUTPUT->box(get_string('accentrecognizer_taskhint', 'accentrecognizer'), 'generalbox', null, ['style' => 'color: #999; font-size: 1.2em;']);
-echo $OUTPUT->box($accentrecognizer->task_text);
+echo $OUTPUT->box($accentrecognizer->task_text, 'generalbox', null, ['style' => 'white-space: pre-line;']);
 
-echo $OUTPUT->box('<i class="fa fa-microphone fa-2x"></i> '.get_string('accentrecognizer_record', 'accentrecognizer'), 'btn btn-primary', null, ['style' => 'margin-left: auto; margin-right: auto; max-width: 300px; display: block;']);
+echo $OUTPUT->box('<i class="fa fa-microphone fa-2x" style="vertical-align: middle;"></i> '.get_string('accentrecognizer_record', 'accentrecognizer'), 'btn btn-primary', null, ['style' => 'margin-left: auto; margin-right: auto; max-width: 300px; display: block;']);
 
 // Finish the page.
 echo $OUTPUT->footer();
