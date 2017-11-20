@@ -25,25 +25,93 @@
  * @copyright 2017 Kristobal Junta
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define(['jquery'], function($) {
+define(['jquery', 'core/notification'], function($, notification) {
+
+    var recorder = false;
+    var outputEl = document.body;
+
+    function createAudioElement(blobUrl) {
+        var downloadEl = document.createElement('a');
+        downloadEl.style = 'display: block';
+        downloadEl.innerHTML = 'download';
+        downloadEl.download = 'audio.webm';
+        downloadEl.href = blobUrl;
+        var audioEl = document.createElement('audio');
+        audioEl.controls = true;
+        var sourceEl = document.createElement('source');
+        sourceEl.src = blobUrl;
+        sourceEl.type = 'audio/webm';
+        audioEl.appendChild(sourceEl);
+
+        outputEl.innerHTML = '';
+        outputEl.appendChild(audioEl);
+        outputEl.appendChild(downloadEl);
+    }
+
+    function setupRecorder(outEl) {
+        if (outEl) { outputEl = outEl; }
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+            recorder = new MediaRecorder(stream);
+        }).catch(notification.exception);
+    }
+
+    function startRecorder () {
+        if (!recorder) {
+            notification.exception('Error using recorder!');
+            return false;
+        }
+
+        var chunks = [];
+        recorder.ondataavailable = function (e) {
+            // add stream data to chunks
+            chunks.push(e.data);
+            // if recorder is 'inactive' then recording has finished
+            if (recorder.state == 'inactive') {
+                // convert stream data chunks to a 'webm' audio format as a blob
+                var blob = new Blob(chunks, { type: 'audio/webm' });
+                // convert blob to URL so it can be assigned to a audio src attribute
+                createAudioElement(URL.createObjectURL(blob));
+            }
+        };
+        recorder.start(1000);
+    }
+
+    function stopRecorder () {
+        if (!recorder) {
+            notification.exception('Error using recorder!');
+            return false;
+        }
+
+        recorder.stop();
+    }
+
+    function setHandlers () {
+        $('body').on('click', '[data-action="record"]', function () {
+            var text;
+            if ($(this).hasClass('btn-primary')) {
+                text = $(this).text().trim();
+                $(this).removeClass('btn-primary').addClass('btn-danger');
+                $(this).html($(this).html().replace(text, $(this).data('text')));
+                $(this).find('i').removeClass('fa-microphone').addClass('fa-stop');
+                $(this).data('text', text);
+
+                startRecorder();
+            } else {
+                text = $(this).text().trim();
+                $(this).removeClass('btn-danger').addClass('btn-primary');
+                $(this).html($(this).html().replace(text, $(this).data('text')));
+                $(this).find('i').removeClass('fa-stop').addClass('fa-microphone');
+                $(this).data('text', text);
+
+                stopRecorder();
+            }
+        });
+    }
+
     var rb = {
         init: function () {
-            $('body').on('click', '[data-action="record"]', function () {
-                var text;
-                if ($(this).hasClass('btn-primary')) {
-                    text = $(this).text().trim();
-                    $(this).removeClass('btn-primary').addClass('btn-danger');
-                    $(this).html($(this).html().replace(text, $(this).data('text')));
-                    $(this).find('i').removeClass('fa-microphone').addClass('fa-stop');
-                    $(this).data('text', text);
-                } else {
-                    text = $(this).text().trim();
-                    $(this).removeClass('btn-danger').addClass('btn-primary');
-                    $(this).html($(this).html().replace(text, $(this).data('text')));
-                    $(this).find('i').removeClass('fa-stop').addClass('fa-microphone');
-                    $(this).data('text', text);
-                }
-            });
+            setupRecorder(document.querySelector('[data-role="record-output"]'));
+            setHandlers();
         }
     };
 
