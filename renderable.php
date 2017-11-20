@@ -15,22 +15,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the version and other meta-info about the plugin
+ * This file contains the definition for the renderable classes for the assignment
  *
- * Setting the $plugin->version to 0 prevents the plugin from being installed.
- * See https://docs.moodle.org/dev/version.php for more info.
- *
- * @package    mod_accentrecognizer
- * @copyright  2017 Kristobal Junta junta.kristobal@gmail.com
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   mod_accentrecognizer
+ * @copyright 2017 Kristobal Junta
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'mod_accentrecognizer';
-$plugin->version = 2017112000;
-$plugin->release = 'v0.1';
-$plugin->requires = 2014051200;
-$plugin->maturity = MATURITY_ALPHA;
-$plugin->cron = 0;
-$plugin->dependencies = array();
+/**
+ * This class wraps the submit for grading confirmation page
+ * @package   mod_accentrecognizer
+ * @copyright 2017 Kristobal Junta
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class record_button implements renderable, templatable {
+    public function export_for_template(renderer_base $output) {
+        $data = new stdClass();
+        return $data;
+    }
+
+}

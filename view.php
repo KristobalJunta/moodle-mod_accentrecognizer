@@ -68,20 +68,23 @@ $PAGE->set_heading(format_string($course->fullname));
  * $PAGE->add_body_class('accentrecognizer-'.$somevar);
  */
 
+$output = $PAGE->get_renderer('mod_accentrecognizer');
+
 // Output starts here.
-echo $OUTPUT->header();
+echo $output->header();
 
 // Conditions to show the intro can change to look for own settings or whatever.
 if ($accentrecognizer->intro) {
-    echo $OUTPUT->box(format_module_intro('accentrecognizer', $accentrecognizer, $cm->id), 'generalbox mod_introbox', 'accentrecognizerintro');
+    echo $output->box(format_module_intro('accentrecognizer', $accentrecognizer, $cm->id), 'generalbox mod_introbox', 'accentrecognizerintro');
 }
 
-echo $OUTPUT->heading($accentrecognizer->name);
+echo $output->heading($accentrecognizer->name);
 
-echo $OUTPUT->box(get_string('accentrecognizer_taskhint', 'accentrecognizer'), 'generalbox', null, ['style' => 'color: #999; font-size: 1.2em;']);
-echo $OUTPUT->box($accentrecognizer->task_text, 'generalbox', null, ['style' => 'white-space: pre-line;']);
+echo $output->box(get_string('accentrecognizer_taskhint', 'accentrecognizer'), 'generalbox', null, ['style' => 'color: #999; font-size: 1.2em;']);
+echo $output->box($accentrecognizer->task_text, 'generalbox', null, ['style' => 'white-space: pre-line;']);
 
-echo $OUTPUT->box('<i class="fa fa-microphone fa-2x" style="vertical-align: middle;"></i> '.get_string('accentrecognizer_record', 'accentrecognizer'), 'btn btn-primary', null, ['style' => 'margin-left: auto; margin-right: auto; max-width: 300px; display: block;']);
+echo $output->render_record_button();
 
 // Finish the page.
-echo $OUTPUT->footer();
+$PAGE->requires->js_call_amd('mod_accentrecognizer/record_button', 'init');
+echo $output->footer();

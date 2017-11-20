@@ -1,0 +1,41 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_accentrecognizer/record_button
+
+    Actions panel at the bottom of the assignment grading UI.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * see mod/assign/classes/output/grading_app.php
+
+    This template is ...
+}}
+
+<button class="btn btn-primary"
+        type="button"
+        style="margin-left: auto; margin-right: auto; width: 300px; max-width: 100%; display: block;"
+        data-action="record"
+        data-text="{{# str }} accentrecognizer_stop, mod_accentrecognizer {{/ str }}">
+    <i class="fa fa-microphone fa-2x" style="vertical-align: middle;"></i>
+    {{# str }} accentrecognizer_record, mod_accentrecognizer {{/ str }}
+</button>
