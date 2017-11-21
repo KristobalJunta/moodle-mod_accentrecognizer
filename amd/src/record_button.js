@@ -71,6 +71,37 @@ define(['jquery', 'core/notification'], function($, notification) {
                 var blob = new Blob(chunks, { type: 'audio/webm' });
                 // convert blob to URL so it can be assigned to a audio src attribute
                 createAudioElement(URL.createObjectURL(blob));
+
+                console.log('Sending file...');
+                // send blob to backend
+                var fd = new FormData();
+                var blobUrl = URL.createObjectURL(blob).split('/');
+                var blobName = blobUrl[blobUrl.length - 1];
+                fd.append('file', blob, blobName);
+                $.post({
+                    'url': 'http://localhost:5000/classify',
+                    'data': fd,
+                    processData: false,
+                    contentType: false,
+                })
+                .done(function (results) {
+                    var output = '';
+                    var closestAcc = ['None', -100]
+                    for (var k in results) {
+                        if (results[k] > closestAcc[1]) {
+                            closestAcc = [k, results[k]];
+                        }
+                    }
+                    output += "The closest accent is: " + closestAcc[0] + "<br>";
+                    output += "Similar to British English for " + parseInt(results.EN * 100) + "%";
+
+                    var p = document.createElement('p');
+                    p.innerHTML = output;
+                    outputEl.appendChild(p);
+                })
+                .always(function (resp) {
+                    console.log(resp);
+                });
             }
         };
         recorder.start(1000);
