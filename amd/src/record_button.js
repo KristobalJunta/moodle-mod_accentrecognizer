@@ -86,23 +86,23 @@ define(['jquery', 'core/notification', 'core/templates', 'core/str'], function($
         return closestAcc[0];
     }
 
-    function createAudioElement(blobUrl) {
-        var downloadEl = document.createElement('a');
-        downloadEl.style = 'display: block';
-        downloadEl.innerHTML = 'download';
-        downloadEl.download = 'audio.webm';
-        downloadEl.href = blobUrl;
-        var audioEl = document.createElement('audio');
-        audioEl.controls = true;
-        var sourceEl = document.createElement('source');
-        sourceEl.src = blobUrl;
-        sourceEl.type = 'audio/webm';
-        audioEl.appendChild(sourceEl);
-
-        outputEl.innerHTML = '';
-        outputEl.appendChild(audioEl);
-        outputEl.appendChild(downloadEl);
-    }
+    // function createAudioElement(blobUrl) {
+    //     var downloadEl = document.createElement('a');
+    //     downloadEl.style = 'display: block';
+    //     downloadEl.innerHTML = 'download';
+    //     downloadEl.download = 'audio.webm';
+    //     downloadEl.href = blobUrl;
+    //     var audioEl = document.createElement('audio');
+    //     audioEl.controls = true;
+    //     var sourceEl = document.createElement('source');
+    //     sourceEl.src = blobUrl;
+    //     sourceEl.type = 'audio/webm';
+    //     audioEl.appendChild(sourceEl);
+    //
+    //     outputEl.innerHTML = '';
+    //     outputEl.appendChild(audioEl);
+    //     outputEl.appendChild(downloadEl);
+    // }
 
     function setupRecorder(outEl) {
         if (outEl) { outputEl = outEl; }
@@ -126,7 +126,7 @@ define(['jquery', 'core/notification', 'core/templates', 'core/str'], function($
                 // convert stream data chunks to a 'webm' audio format as a blob
                 var blob = new Blob(chunks, { type: 'audio/webm' });
                 // convert blob to URL so it can be assigned to a audio src attribute
-                createAudioElement(URL.createObjectURL(blob));
+                // createAudioElement(URL.createObjectURL(blob));
 
                 // send blob to backend
                 var fd = new FormData();
