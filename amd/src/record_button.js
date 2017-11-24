@@ -25,10 +25,55 @@
  * @copyright 2017 Kristobal Junta
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define(['jquery', 'core/notification'], function($, notification) {
+define(['jquery', 'core/notification', 'core/templates', 'core/str'], function($, notification, templates, str) {
 
     var recorder = false;
     var outputEl = document.body;
+
+    function setButtonState (state) {
+        var button = $('[data-action="record"]');
+        if ('default' === state) {
+            str.get_string('accentrecognizer_record', 'mod_accentrecognizer')
+                .done(function (text) {
+                    var icon = document.createElement('i');
+                    icon.className = 'fa fa-microphone fa-2x';
+                    icon.style.verticalAlign = 'middle';
+
+                    var markup = icon.outerHTML + ' ' + text;
+
+                    button.removeClass('btn-danger btn-warning').addClass('btn-primary');
+                    button.html(markup);
+                    button.prop('disabled', false);
+                });
+        } else if ('recording' === state) {
+            str.get_string('accentrecognizer_stop', 'mod_accentrecognizer')
+                .done(function (text) {
+                    var icon = document.createElement('i');
+                    icon.className = 'fa fa-stop fa-2x';
+                    icon.style.verticalAlign = 'middle';
+
+                    var markup = icon.outerHTML + ' ' + text;
+
+                    button.removeClass('btn-primary btn-warning').addClass('btn-danger');
+                    button.html(markup);
+                    button.prop('disabled', false);
+                });
+        } else if ('sending' === state) {
+            str.get_string('accentrecognizer_sending', 'mod_accentrecognizer')
+                .done(function (text) {
+                    var icon = document.createElement('i');
+                    icon.className = 'fa fa-spinner fa-2x fa-spin';
+                    icon.style.verticalAlign = 'middle';
+
+                    var markup = icon.outerHTML + ' ' + text;
+
+                    button.removeClass('btn-danger btn-primary').addClass('btn-warning');
+                    button.html(markup);
+                    button.prop('disabled', true);
+                });
+        }
+        button.data('state', state);
+    }
 
     function createAudioElement(blobUrl) {
         var downloadEl = document.createElement('a');
@@ -72,7 +117,6 @@ define(['jquery', 'core/notification'], function($, notification) {
                 // convert blob to URL so it can be assigned to a audio src attribute
                 createAudioElement(URL.createObjectURL(blob));
 
-                console.log('Sending file...');
                 // send blob to backend
                 var fd = new FormData();
                 var blobUrl = URL.createObjectURL(blob).split('/');
@@ -85,22 +129,24 @@ define(['jquery', 'core/notification'], function($, notification) {
                     contentType: false,
                 })
                 .done(function (results) {
-                    var output = '';
-                    var closestAcc = ['None', -100]
-                    for (var k in results) {
+                    var closestAcc = ['None', -100];
+                    for (var k in results) { // TODO: separate to function
                         if (results[k] > closestAcc[1]) {
                             closestAcc = [k, results[k]];
                         }
                     }
-                    output += "The closest accent is: " + closestAcc[0] + "<br>";
-                    output += "Similar to British English for " + parseInt(results.EN * 100) + "%";
 
-                    var p = document.createElement('p');
-                    p.innerHTML = output;
-                    outputEl.appendChild(p);
-                })
-                .always(function (resp) {
-                    console.log(resp);
+                    var context = {
+                        'closestAccent': closestAcc[0],
+                        'engSimilarity': parseInt(results.EN * 100)
+                    };
+
+                    setButtonState('default');
+                    templates.render('mod_accentrecognizer/recognition_results', context)
+                        .then(function (html) {
+                            outputEl.innerHTML = html;
+                        })
+                        .fail(notification.exception);
                 });
             }
         };
@@ -118,22 +164,13 @@ define(['jquery', 'core/notification'], function($, notification) {
 
     function setHandlers () {
         $('body').on('click', '[data-action="record"]', function () {
-            var text;
-            if ($(this).hasClass('btn-primary')) {
-                text = $(this).text().trim();
-                $(this).removeClass('btn-primary').addClass('btn-danger');
-                $(this).html($(this).html().replace(text, $(this).data('text')));
-                $(this).find('i').removeClass('fa-microphone').addClass('fa-stop');
-                $(this).data('text', text);
+            var button = $(this);
 
+            if (button.data('state') === 'default') {
+                setButtonState('recording');
                 startRecorder();
-            } else {
-                text = $(this).text().trim();
-                $(this).removeClass('btn-danger').addClass('btn-primary');
-                $(this).html($(this).html().replace(text, $(this).data('text')));
-                $(this).find('i').removeClass('fa-stop').addClass('fa-microphone');
-                $(this).data('text', text);
-
+            } else if (button.data('state') === 'recording') {
+                setButtonState('sending');
                 stopRecorder();
             }
         });

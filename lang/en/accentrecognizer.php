@@ -43,3 +43,4 @@ $string['accentrecognizer_tasktext'] = 'Text of the task';
 $string['accentrecognizer_taskhint'] = 'Press the "Record" button and read aloud the following text:';
 $string['accentrecognizer_record'] = 'Record';
 $string['accentrecognizer_stop'] = 'Stop';
+$string['accentrecognizer_sending'] = 'Sending';
