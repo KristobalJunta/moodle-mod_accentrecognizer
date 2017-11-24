@@ -75,6 +75,17 @@ define(['jquery', 'core/notification', 'core/templates', 'core/str'], function($
         button.data('state', state);
     }
 
+    function getClosestAccent (accData) {
+        var closestAcc = ['None', -100];
+        for (var k in accData) {
+            if (accData[k] > closestAcc[1]) {
+                closestAcc = [k, accData[k]];
+            }
+        }
+
+        return closestAcc[0];
+    }
+
     function createAudioElement(blobUrl) {
         var downloadEl = document.createElement('a');
         downloadEl.style = 'display: block';
@@ -129,15 +140,10 @@ define(['jquery', 'core/notification', 'core/templates', 'core/str'], function($
                     contentType: false,
                 })
                 .done(function (results) {
-                    var closestAcc = ['None', -100];
-                    for (var k in results) { // TODO: separate to function
-                        if (results[k] > closestAcc[1]) {
-                            closestAcc = [k, results[k]];
-                        }
-                    }
+                    var closestAcc = getClosestAccent(results);
 
                     var context = {
-                        'closestAccent': closestAcc[0],
+                        'closestAccent': closestAcc,
                         'engSimilarity': parseInt(results.EN * 100)
                     };
 
